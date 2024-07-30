@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class EmbeddedCourseDao {
-    private List<Course> courses = Arrays.asList(
+import com.Revature.Mehrab.JavalinPractice.util.DAO;
+
+public class EmbeddedCourseDao implements DAO<Course>{
+    private final List<Course> courses = Arrays.asList(
         new Course(1, "Biology"),
         new Course(2, "Math"),
         new Course(3, "English")
@@ -23,15 +25,22 @@ public class EmbeddedCourseDao {
         return embeddedCourseDao;
     }
 
-    Optional<Course> getCourseById(int id) {
+    @Override
+    public Optional<Course> getById(int id) {
         return courses.stream()
             .filter(course -> course.getId() == id)
             .findAny();
     }
 
-    Iterable<String> getAllCourseNames() {
+    @Override
+    public Iterable<String> getAllNames() {
         return courses.stream()
             .map(course -> course.getName())
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public Iterable<Course> getAll() {
+        return this.courses;
     }
 }
