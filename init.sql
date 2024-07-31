@@ -1,9 +1,9 @@
-CREATE TABLE courses (
+CREATE TABLE IF NOT EXISTS courses (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name TEXT UNIQUE
 );
 
-INSERT INTO courses(name) VALUES
-    ('Chemistry'),
-    ('Statistics'),
-    ('Social Studies');
+CREATE TABLE IF NOT EXISTS students (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name TEXT
+)

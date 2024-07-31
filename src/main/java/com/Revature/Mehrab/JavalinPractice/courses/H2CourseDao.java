@@ -1,7 +1,6 @@
 package com.Revature.Mehrab.JavalinPractice.courses;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,22 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.Revature.Mehrab.JavalinPractice.util.ConnectionUtil;
 import com.Revature.Mehrab.JavalinPractice.util.DAO;
 
-public class H3CourseDao implements DAO<Course>{
+public class H2CourseDao implements DAO<Course>{
     private final Connection connection;
 
-    private static H3CourseDao instance = null;
-    private H3CourseDao() throws SQLException {
-        this.connection = DriverManager.getConnection("jdbc:h2:mem:test;INIT=runscript from 'init.sql'", "sa", "");
+    private static H2CourseDao instance = null;
+    private H2CourseDao() throws SQLException {
+        this.connection = ConnectionUtil.getConnection();
     }
-    public static H3CourseDao getInstance() {
-        if (H3CourseDao.instance != null) {
-            return H3CourseDao.instance;
+    public static H2CourseDao getInstance() {
+        if (H2CourseDao.instance != null) {
+            return H2CourseDao.instance;
         }
         try {
-            H3CourseDao.instance = new H3CourseDao();
-            return H3CourseDao.instance;
+            H2CourseDao.instance = new H2CourseDao();
+            return H2CourseDao.instance;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,6 +77,19 @@ public class H3CourseDao implements DAO<Course>{
         } catch (SQLException ex) {
         }
         return names;
+    }
+
+    @Override
+    public String insert(Course course) {
+        try {
+            String query = "INSERT INTO courses(name) VALUES (?);";
+            PreparedStatement stmt = this.connection.prepareStatement(query);
+            stmt.setString(1, course.getName());
+            stmt.execute();
+            return "1 row updated.";
+        } catch (SQLException ex) {
+            return "0 rows updated.";
+        }
     }
     
 }

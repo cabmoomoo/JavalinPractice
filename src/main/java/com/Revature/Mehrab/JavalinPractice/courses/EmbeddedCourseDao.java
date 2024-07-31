@@ -43,4 +43,10 @@ public class EmbeddedCourseDao implements DAO<Course>{
     public Iterable<Course> getAll() {
         return this.courses;
     }
+
+    @Override
+    public String insert(Course course) {
+        this.courses.add(course);
+        return "1 row updated";
+    }
 }
